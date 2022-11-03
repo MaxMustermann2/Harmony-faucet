@@ -19,7 +19,7 @@ const getTime = (seconds) => {
 
 const validateTransaction = async (address, hmy, contract) => {
   let requestedBlockNumber = await contract.methods
-    .requestedAddressMapping(crypto.fromBech32(address))
+    .requestedAddressMapping(new crypto.HarmonyAddress(address).basicHex)
     .call({
       gasLimit: gasLimit,
       gasPrice: new hmy.utils.Unit(gasPrice).asGwei().toWei(),
@@ -61,13 +61,15 @@ const transferBalance = async (req, res, next) => {
           const hmy = await initHarmony(networkId);
           const contract = getContractInstance(hmy, networkId, artifact);
           await validateTransaction(address, hmy, contract);
+          console.log('Sending transaction');
           let txinfo = await contract.methods
-            .transferAmount(crypto.fromBech32(address))
+            .transferAmount(new crypto.HarmonyAddress(address).basicHex)
             .send({
+              // by default waitConfirm is true
               gasLimit: gasLimit,
               gasPrice: new hmy.utils.Unit(gasPrice).asGwei().toWei(),
-              to: contract.options.address,
             });
+          console.log('Transaction sent and processed')
           if (txinfo.transaction.receipt.status !== '0x1') {
             throw new Error('Transfer token failed. Please try again later.');
           }
@@ -76,6 +78,7 @@ const transferBalance = async (req, res, next) => {
           throw new Error('Captcha verification failed.');
         }
       } catch (error) {
+        console.log(error)
         res.status(500).json({
           message: error.message,
         });

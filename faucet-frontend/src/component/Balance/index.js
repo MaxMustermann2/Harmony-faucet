@@ -12,7 +12,7 @@ const Balance = ({ balance }) => {
       If you wish to receive additional tokens to run a validator on testnet, please drop a message <a href="https://t.me/POPS_Team_Validator">here.</a><br/> <br/>
 
       Please return unused Testnet tokens back to the faucet.
-      
+
     </div>
   );
 };

@@ -58,13 +58,11 @@ const Main = () => {
             { id: "shard3", value: "3", label: "Shard 3", disabled: true },
           ]}
         />
-        <div align="center">
-        <p>To convert your 0x format address to one wallet format, visit <a href="https://explorer.pops.one">h$
-        </div>
+
         <div className={`input-wrapper  ${!!currentFaucet.error && "error"}`}>
           <input
             type="text"
-            placeholder="ONE address (e.g. one18zf6feapd6sgae6saz4m6xs65yxkps9z7qcv77)"
+            placeholder="Harmony address"
             className="address-input"
             value={address}
             onChange={(ev) => setAddress(ev.target.value)}
